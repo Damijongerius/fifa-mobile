@@ -11,7 +11,7 @@ TagManager:
   - Floor
   - Water
   - UI
-  - 
+  - enemy
   - 
   - 
   - 
@@ -43,4 +43,7 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: enemy
+    uniqueID: 2983386611
     locked: 0

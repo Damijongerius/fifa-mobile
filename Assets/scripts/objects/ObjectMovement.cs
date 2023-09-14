@@ -4,10 +4,23 @@ using UnityEngine;
 
 public class ObjectMovement : MonoBehaviour
 {
-
+    public float speed;
+    public float minSpeed;
     // Update is called once per frame
     void Update()
     {
-        transform.position += Vector3.left * 5 * Time.deltaTime;
+        float rand = speed;
+        if(minSpeed != 0)
+        {
+            rand = Random.Range(minSpeed, speed);
+        }
+       
+        transform.position += Vector3.left * rand * Time.deltaTime;
+
+        if(transform.position.x < -10)
+        {
+            Destroy(gameObject);
+        }
     }
+
 }
