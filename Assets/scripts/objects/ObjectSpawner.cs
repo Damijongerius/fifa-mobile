@@ -11,7 +11,7 @@ public class ObjectSpawner : MonoBehaviour
     private float maxSpawnInterval = 5.0f;
 
     private float maxIncrease = 2.5f;
-    private float speedIncrease;
+    private float speedIncrease = 1;
     private float standardIncreaseSpeed = 1f;
 
     private float nextSpawnTime;
@@ -26,7 +26,7 @@ public class ObjectSpawner : MonoBehaviour
     private void Update()
     {
         // Check if it's time to spawn an object
-        if (Time.time >= nextSpawnTime)
+        if (Time.time >= nextSpawnTime && playing)
         {
             SpawnObject();
             // Update the next spawn time with a new random interval
@@ -46,7 +46,6 @@ public class ObjectSpawner : MonoBehaviour
         mergedobjects.AddRange(floatingObjects);
 
         int number = Random.Range(0, mergedobjects.Count);
-        Debug.Log(number);
 
         if(number < floorObjects.Count)
         {

@@ -27,7 +27,17 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) => movement.OnCollisionEnter(collision);
+    private void OnCollisionEnter2D(Collision2D collision) 
+    {
+        if(collision.gameObject.layer == 6)
+        {
+            //gameover
+        }
+        else
+        {
+            movement.OnCollisionEnter(collision);
+        }
+    }
 
     private void OnCollisionExit2D(Collision2D collision) => movement.OnCollisionExit(collision);
 

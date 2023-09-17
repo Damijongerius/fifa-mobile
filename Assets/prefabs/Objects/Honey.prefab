@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 211296862937217203}
   - component: {fileID: 4351074159112495251}
   - component: {fileID: -7835473116434992103}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Honey
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,6 +73,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10.04
+  minSpeed: 0
 --- !u!1 &5377856466738819306
 GameObject:
   m_ObjectHideFlags: 0
@@ -83,7 +84,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1477900999692736910}
   - component: {fileID: 5069483418970264078}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: honeyblock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
