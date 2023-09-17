@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,10 +12,21 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         movement = new Player_Movement(rb,this);
+        GameManager.SubscribeToDelegate(ResetGame);
+    }
+
+    private void ResetGame()
+    {
+        transform.position = new Vector3(-6,-3,0);
     }
 
     void Update()
     {
+        if (!GameManager.Playing())
+        {
+            return;
+        }
+        
         if(Input.GetKey(KeyCode.Space)) 
         {
             movement.OnJump();
@@ -22,7 +34,6 @@ public class Player : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.C))
         {
-            Debug.Log(Random.Range(0, 10));
             movement.OnCrouch();
         }
     }
@@ -31,7 +42,7 @@ public class Player : MonoBehaviour
     {
         if(collision.gameObject.layer == 6)
         {
-            //gameover
+            GameManager.PlayerDeath();
         }
         else
         {

@@ -26,12 +26,8 @@ public class Player_Movement
     }
 
     public void OnCrouch()
-    {
-        if (grounded)
-        {
-            Debug.Log("squish");
-        }
-        else if(!dropping)
+    { 
+        if(!dropping)
         {
             if(rb.velocity.y > 0.1f) rb.velocity = Vector2.zero;
             rb.velocity = Vector2.down * 5 + rb.velocity;

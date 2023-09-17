@@ -16,17 +16,21 @@ public class ObjectSpawner : MonoBehaviour
 
     private float nextSpawnTime;
 
-    public void StartGame()
+    private void Start()
+    {
+        GameManager.SubscribeToDelegate(ResetGame);
+    }
+
+    private void ResetGame()
     {
         // Set the initial time to spawn an object
-        nextSpawnTime = Time.time + Random.Range(minSpawnInterval, maxSpawnInterval);
         speedIncrease = standardIncreaseSpeed;
     }
 
     private void Update()
     {
         // Check if it's time to spawn an object
-        if (Time.time >= nextSpawnTime && playing)
+        if (Time.time >= nextSpawnTime && GameManager.Playing())
         {
             SpawnObject();
             // Update the next spawn time with a new random interval
