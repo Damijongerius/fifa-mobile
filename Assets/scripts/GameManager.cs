@@ -21,14 +21,15 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        inputField = fillInInitials.GetComponent<TMP_InputField>();
+        resetGame += GameReset;
+        inputField = fillInInitials.GetComponentInChildren<TMP_InputField>();
     }
 
     private void Update()
     {
         if (playing)
         {
-            score += 1 * Time.deltaTime;
+            score += 10 * Time.deltaTime;
         }
         if (Input.GetKeyDown(KeyCode.Space) && !playing && prepared)
         {
@@ -39,12 +40,20 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Return) && !playing && !prepared)
         {
-            string initials = inputField.text;
+            var initials = inputField.text;
             if (initials.Length == 3)
             {
                 SetPlayerResult(initials);
             }
         }
+    }
+
+    private void GameReset()
+    {
+        startGame.SetActive(true);
+        inputField.text = "";
+        fillInInitials.SetActive(false);
+        score = 0;
     }
 
     public void PlayerDeath()
@@ -60,7 +69,7 @@ public class GameManager : MonoBehaviour
 
     public void SetPlayerResult(string initals)
     {
-        Debug.Log(initals + "score:" + Mathf.RoundToInt(score));
+        Debug.Log(score);
         //send this data to server
         
         resetGame();

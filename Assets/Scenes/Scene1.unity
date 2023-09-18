@@ -399,7 +399,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1293603593108180, guid: 92d60a2e17d9a4bb8bd3801b14fc2926, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4915952705314410, guid: 92d60a2e17d9a4bb8bd3801b14fc2926, type: 3}
       propertyPath: m_RootOrder
@@ -774,6 +774,8 @@ MonoBehaviour:
   - {fileID: 1323021639570499136, guid: 5381fa58f7331284c9d923197dd8624c, type: 3}
   floatingObjects:
   - {fileID: 2739958333862818853, guid: b195fed0006cdb64a9b6289e9618678e, type: 3}
+  maxIncrease: 2.5
+  speedIncrease: 1
 --- !u!1 &1089310117
 GameObject:
   m_ObjectHideFlags: 0
@@ -1033,7 +1035,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1519610486
 Transform:
   m_ObjectHideFlags: 0

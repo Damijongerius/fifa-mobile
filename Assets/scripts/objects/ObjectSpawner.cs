@@ -10,9 +10,9 @@ public class ObjectSpawner : MonoBehaviour
     private float minSpawnInterval = 2.0f;
     private float maxSpawnInterval = 5.0f;
 
-    private float maxIncrease = 2.5f;
-    private float speedIncrease = 1;
-    private float standardIncreaseSpeed = 1f;
+    public float maxIncrease = 1.9f;
+    public float speedIncrease = 0;
+    private float standardIncreaseSpeed = 0f;
 
     private float nextSpawnTime;
 
@@ -34,8 +34,9 @@ public class ObjectSpawner : MonoBehaviour
         {
             SpawnObject();
             // Update the next spawn time with a new random interval
-            nextSpawnTime = Time.time + Random.Range(minSpawnInterval * speedIncrease, maxSpawnInterval * speedIncrease);
-            int random = Random.Range(0, 3);
+            nextSpawnTime = Time.time + Random.Range(minSpawnInterval - speedIncrease, maxSpawnInterval - speedIncrease);
+            int random = Random.Range(0, 2);
+            Debug.Log(random);
             if(random == 1)
             {
                 speedIncrease += 0.1f;
