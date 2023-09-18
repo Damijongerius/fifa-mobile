@@ -1,37 +1,70 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class GameManager : MonoBehaviour
 {
+    public GameObject startGame;
+    public GameObject fillInInitials;
+    
     private static bool playing;
+    private bool prepared = true;
 
+    private float score;
     public delegate void ResetGame();
     private static ResetGame resetGame;
 
+    private TMP_InputField inputField;
+
+    private void Start()
+    {
+        inputField = fillInInitials.GetComponent<TMP_InputField>();
+    }
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !playing)
+        if (playing)
         {
-            
+            score += 1 * Time.deltaTime;
+        }
+        if (Input.GetKeyDown(KeyCode.Space) && !playing && prepared)
+        {
+            PlayerStart();
+            startGame.SetActive(false);
+            prepared = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return) && !playing && !prepared)
+        {
+            string initials = inputField.text;
+            if (initials.Length == 3)
+            {
+                SetPlayerResult(initials);
+            }
         }
     }
 
-    public static void PlayerDeath()
+    public void PlayerDeath()
     {
         playing = false;
+        fillInInitials.SetActive(true);
     }
 
-    public static void PlayerStart()
+    public void PlayerStart()
     {
         playing = true;
     }
 
-    public static void SetPlayerResult(int score, string name)
+    public void SetPlayerResult(string initals)
     {
-        resetGame();
+        Debug.Log(initals + "score:" + Mathf.RoundToInt(score));
         //send this data to server
+        
+        resetGame();
+        prepared = true;
     }
 
     // Subscribe a method to the gameChange delegate

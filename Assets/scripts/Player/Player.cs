@@ -7,7 +7,8 @@ public class Player : MonoBehaviour
 {
     private Player_Movement movement;
     public Rigidbody2D rb;
-
+    public GameManager gameManager;
+    
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -42,7 +43,7 @@ public class Player : MonoBehaviour
     {
         if(collision.gameObject.layer == 6)
         {
-            GameManager.PlayerDeath();
+            gameManager.PlayerDeath();
         }
         else
         {
