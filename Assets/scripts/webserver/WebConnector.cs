@@ -12,7 +12,7 @@ namespace webserver
             WWWForm form = new WWWForm();
             form.AddField("initials", initials);
             form.AddField("score", score);
-            using (UnityWebRequest www = UnityWebRequest.Post("http://192.168.19.129:80/FifaMobile/Api/PostTest.php", form))
+            using (UnityWebRequest www = UnityWebRequest.Post("http://77.175.108.112:80/FifaMobile/Api/PostTest.php", form))
             {
                 www.downloadHandler = new DownloadHandlerBuffer();
                 yield return www.SendWebRequest();
