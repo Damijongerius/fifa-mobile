@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
+using webserver;
 
 public class GameManager : MonoBehaviour
 {
     public GameObject startGame;
     public GameObject fillInInitials;
-    
+    public TMP_Text displayScore;
     private static bool playing;
     private bool prepared = true;
 
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour
         if (playing)
         {
             score += 10 * Time.deltaTime;
+            displayScore.text = (int) score + "";
         }
         if (Input.GetKeyDown(KeyCode.Space) && !playing && prepared)
         {
@@ -62,14 +64,14 @@ public class GameManager : MonoBehaviour
         fillInInitials.SetActive(true);
     }
 
-    public void PlayerStart()
+    private void PlayerStart()
     {
         playing = true;
     }
 
-    public void SetPlayerResult(string initals)
+    private void SetPlayerResult(string initals)
     {
-        Debug.Log(score);
+        StartCoroutine(WebConnector.SendPostRequest(inputField.text,(int) score));
         //send this data to server
         
         resetGame();
