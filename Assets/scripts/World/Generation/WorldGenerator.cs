@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using World.WorldData;
@@ -7,45 +8,68 @@ namespace World.Generation
 {
     public class WorldGenerator : MonoBehaviour
     {
-        void Start()
-        {
+        private World.WorldData.World world;
 
+        private void Start()
+        {
+            Debug.Log("WorldGenerator started");
+            world = new World.WorldData.World(this, Random.Range(0, 1000000));
+            
         }
 
 
-        public async Task LoadChunksAsync(List<Vector2Int> chunkPositions)
+        public async Task LoadChunksAsync(List<int> chunkPositions, int chunksInHeight)
         {
             // Concurrently request and load chunks
-            List<Task> chunkTasks = new List<Task>();
-            foreach (var position in chunkPositions)
+            List<Task<Chunk>[]> chunkTasks = new List<Task<Chunk>[]>();
+            
+            foreach (var x in chunkPositions)
             {
-                chunkTasks.Add(RequestChunkAsync(position));
+                Task<Chunk>[] chunkRow = new Task<Chunk>[chunksInHeight];
+                for (int y = 0; y < chunksInHeight; y++)
+                {
+                    chunkRow[y] = RequestChunkAsync(new Vector2Int(x, y));
+                }
+                
+                chunkTasks.Add(chunkRow);
             }
 
-            await Task.WhenAll(chunkTasks);
+            for(int x = 0; x < chunkTasks.Count; x++)
+            {
+                await Task.WhenAll(chunkTasks[x]);
+                
+                world.AddChunkRowY(chunkPositions[x],chunkTasks[x].Select(task => task.Result).ToArray());
+            }
+            
         }
 
-        private async Task RequestChunkAsync(Vector2Int position)
+        private async Task<Chunk> RequestChunkAsync(Vector2Int position)
         {
-            // Make an asynchronous request for the chunk data (e.g., from a server or a file)
-            // Ensure any Unity-related operations are dispatched to the main thread if needed
             await Task.Yield(); // Simulated async operation
-            Chunk chunk = await RequestChunkDataAsync(position);
+            return RequestChunkData(position);
+            
 
-            // Once the chunk data is loaded, you can process it
-            ProcessChunkData(chunk);
         }
 
-        private async Task<Chunk> RequestChunkDataAsync(Vector2Int position)
+        private Chunk RequestChunkData(Vector2Int position)
         {
             // Simulated asynchronous loading of chunk data
-            await Task.Yield();
-            return new Chunk(); // Replace with your actual data loading logic
-        }
-
-        private void ProcessChunkData(Chunk chunk)
-        {
-            // Process the loaded chunk data (e.g., generate terrain, spawn objects, etc.)
+            
+            // Generate chunk data
+            Debug.Log("Generating Chunk data");
+            int chunkSize = world.getChunkSize();
+            bool[,] blockStates = new bool[chunkSize, chunkSize];
+            float seed = world.GetSeed();
+            for (int x = 0; x < chunkSize; x++)
+            {
+                for (int y = 0; y < chunkSize; y++)
+                {
+                    blockStates[x, y] = Mathf.PerlinNoise(x + seed + (position.x * chunkSize), y + seed + (position.y * chunkSize)) > 0.5f;
+                }
+            }
+            Debug.Log(blockStates);
+            
+            return new Chunk(blockStates);
         }
     }
 }
